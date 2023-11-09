@@ -59,6 +59,9 @@ class attendanceregister_user_aggregates {
     /** @var stdClass $user User instance */
     public $user;
 
+    /** @var attendanceregister_session $usersessions */
+    public $usersessions;
+
     /**
      * Create an instance for a given register and user
      *
