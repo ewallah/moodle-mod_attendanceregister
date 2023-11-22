@@ -72,7 +72,7 @@ class classes_test extends \advanced_testcase {
      * @covers \attendanceregister_user_sessions
      * @covers \attendanceregister_user_aggregates_summary
      */
-    public function test_tracked_courses() {
+    public function test_tracked_courses(): void {
         $this->tracked_courses();
         $this->fill_database();
         $this->tracked_courses();

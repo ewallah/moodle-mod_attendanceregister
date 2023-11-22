@@ -47,7 +47,7 @@ class other_test extends \advanced_testcase {
      * Test the user capabilites
      * @covers \attendanceregister_user_capablities
      */
-    public function test_user_capabilites() {
+    public function test_user_capabilites(): void {
         global $CFG;
         require_once($CFG->dirroot . '/mod/attendanceregister/locallib.php');
         require_once($CFG->dirroot . '/mod/attendanceregister/lib.php');
@@ -82,7 +82,7 @@ class other_test extends \advanced_testcase {
      * @covers \mod_attendanceregister\event\user_attendance_deloffline
      * @covers \mod_attendanceregister\event\user_attendance_details_viewed
      */
-    public function test_events() {
+    public function test_events(): void {
         $dg = $this->getDataGenerator();
         $course = $dg->create_course();
         $userid = $dg->create_user()->id;
@@ -109,7 +109,7 @@ class other_test extends \advanced_testcase {
      * Test the tasks
      * @covers \mod_attendanceregister\task\cron_task
      */
-    public function test_task() {
+    public function test_task(): void {
         $dg = $this->getDataGenerator();
         $course = $dg->create_course();
         $userid = $dg->create_user()->id;
@@ -129,7 +129,7 @@ class other_test extends \advanced_testcase {
      * @covers \attendanceregister_user_sessions
      * @covers \attendanceregister_user_capablities
      */
-    public function test_logins() {
+    public function test_logins(): void {
         global $CFG, $DB;
         $CFG->enablecompletion = 1;
         $dg = $this->getDataGenerator();
@@ -178,7 +178,7 @@ class other_test extends \advanced_testcase {
      * @covers \restore_attendanceregister_activity_structure_step
      * @covers \restore_attendanceregister_activity_task
      */
-    public function test_backup() {
+    public function test_backup(): void {
         global $CFG, $DB, $USER;
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
         require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
@@ -221,7 +221,7 @@ class other_test extends \advanced_testcase {
      * @covers \mod_attendanceregister_mod_form
      * @covers \mod_attendanceregister_selfcertification_edit_form
      */
-    public function test_forms() {
+    public function test_forms(): void {
         global $CFG, $DB, $USER;
         require_once($CFG->dirroot . '/mod/attendanceregister/mod_form.php');
         require_once($CFG->dirroot . '/mod/attendanceregister/locallib.php');
@@ -251,7 +251,7 @@ class other_test extends \advanced_testcase {
      * Test other files.
      * @coversNothing
      */
-    public function test_files() {
+    public function test_files(): void {
         global $CFG;
         $plugin = new \stdClass();
         include($CFG->dirroot . '/mod/attendanceregister/version.php');

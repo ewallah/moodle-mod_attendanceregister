@@ -40,7 +40,7 @@ class generator_test extends \advanced_testcase {
      * Test the generator
      * @covers \mod_attendanceregister_generator
      */
-    public function test_generator() {
+    public function test_generator(): void {
         global $DB;
         $this->resetAfterTest(true);
         $this->assertEquals(0, $DB->count_records('attendanceregister'));

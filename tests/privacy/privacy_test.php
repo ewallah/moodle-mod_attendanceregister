@@ -122,7 +122,7 @@ class privacy_test extends provider_testcase {
      * Test returning metadata.
      * @covers \mod_attendanceregister\privacy\provider
      */
-    public function test_get_metadata() {
+    public function test_get_metadata(): void {
         $collection = new \core_privacy\local\metadata\collection('mod_attendanceregister');
         $collection = \mod_attendanceregister\privacy\provider::get_metadata($collection);
         $this->assertNotEmpty($collection);
@@ -131,7 +131,7 @@ class privacy_test extends provider_testcase {
      * Test getting the context for the user ID related to this plugin.
      * @covers \mod_attendanceregister\privacy\provider
      */
-    public function test_get_contexts_for_userid() {
+    public function test_get_contexts_for_userid(): void {
         $contextlist = \mod_attendanceregister\privacy\provider::get_contexts_for_userid($this->user->id);
         $this->assertNotEmpty($contextlist);
     }
@@ -140,7 +140,7 @@ class privacy_test extends provider_testcase {
      * Check the exporting of sessions for a user.
      * @covers \mod_attendanceregister\privacy\provider
      */
-    public function test_export_sessions() {
+    public function test_export_sessions(): void {
         $this->export_context_data_for_user($this->user->id, $this->context, 'mod_attendanceregister');
         $writer = \core_privacy\local\request\writer::with_context($this->context);
         $this->assertTrue($writer->has_any_data());
@@ -150,7 +150,7 @@ class privacy_test extends provider_testcase {
      * Tests the deletion of all sessions.
      * @covers \mod_attendanceregister\privacy\provider
      */
-    public function test_delete_sessions_for_all_users_in_context() {
+    public function test_delete_sessions_for_all_users_in_context(): void {
         global $DB;
         $this->assertEquals(7, $DB->count_records('attendanceregister_session'));
         \mod_attendanceregister\privacy\provider::delete_data_for_all_users_in_context($this->context);
@@ -165,7 +165,7 @@ class privacy_test extends provider_testcase {
      * Tests deletion of sessions for a specified user.
      * @covers \mod_attendanceregister\privacy\provider
      */
-    public function test_delete_sessions_for_user() {
+    public function test_delete_sessions_for_user(): void {
         global $DB;
         $list = new \core_privacy\tests\request\approved_contextlist($this->user, 'mod_attendanceregister', [$this->context->id]);
         $this->assertNotEmpty($list);
@@ -182,7 +182,7 @@ class privacy_test extends provider_testcase {
      * Tests get users in context.
      * @covers \mod_attendanceregister\privacy\provider
      */
-    public function test_get_users_in_context() {
+    public function test_get_users_in_context(): void {
         $userlist = new \core_privacy\local\request\userlist($this->context, 'mod_attendanceregister');
         \mod_attendanceregister\privacy\provider::get_users_in_context($userlist);
         $this->assertCount(2, $userlist);
@@ -192,7 +192,7 @@ class privacy_test extends provider_testcase {
      * Tests delete data for users.
      * @covers \mod_attendanceregister\privacy\provider
      */
-    public function test_delete_data_for_users_in_context() {
+    public function test_delete_data_for_users_in_context(): void {
         $approved = new \core_privacy\local\request\approved_userlist($this->context, 'mod_attendanceregister', [$this->user->id]);
         \mod_attendanceregister\privacy\provider::delete_data_for_users($approved);
         $userlist = new \core_privacy\local\request\userlist($this->context, 'mod_attendanceregister');
