@@ -48,28 +48,41 @@ class other_test extends \advanced_testcase {
      * @covers \attendanceregister_user_capablities
      */
     public function test_user_capabilites(): void {
-        global $CFG;
+        global $CFG, $USER;
         require_once($CFG->dirroot . '/mod/attendanceregister/locallib.php');
         require_once($CFG->dirroot . '/mod/attendanceregister/lib.php');
         $dg = $this->getDataGenerator();
         $course = $dg->create_course();
         $context = \context_course::instance($course->id);
         $uc = new \attendanceregister_user_capablities($context);
-        $userid = 1;
-        $this->AssertFalse($uc->canview($userid));
-        $this->AssertFalse($uc->canddeletesession($userid));
-        $this->AssertFalse($uc->canaddsession(null, $userid));
         $userid = $dg->create_user()->id;
         $dg->enrol_user($userid, $course->id);
         $this->AssertFalse($uc->canview($userid));
         $this->AssertFalse($uc->canddeletesession($userid));
         $this->AssertFalse($uc->canaddsession(null, $userid));
         $this->setAdminUser();
-        $this->AssertFalse($uc->canview($userid));
-        $this->AssertFalse($uc->canddeletesession($userid));
-        $this->AssertFalse($uc->canaddsession(null, $userid));
+        $this->AssertFalse($uc->canview($USER->id));
+        $this->AssertFalse($uc->canddeletesession($USER->id));
+        $this->AssertFalse($uc->canaddsession(null, $USER->id));
         $cm = $dg->create_module('attendanceregister', ['course' => $course->id]);
         $context = \context_module::instance($cm->cmid);
+        assign_capability('mod/attendanceregister:addotherofflinesess', CAP_ALLOW, 5, $context->id, true);
+        assign_capability('mod/attendanceregister:deleteownofflinesess', CAP_ALLOW, 5, $context->id, true);
+        assign_capability('mod/attendanceregister:deleteotherofflinesess', CAP_ALLOW, 5, $context->id, true);
+        assign_capability('mod/attendanceregister:viewotherregisters', CAP_ALLOW, 5, $context->id, true);
+        role_assign(5, $userid, $context->id);
+        $uc = new \attendanceregister_user_capablities($context);
+        $this->assertTrue($uc->canview($userid));
+        $this->AssertFalse($uc->canddeletesession($userid));
+        $this->AssertFalse($uc->canaddsession($cm, $userid));
+        $this->setAdminUser();
+        $this->assertTrue($uc->canview($userid));
+        $this->AssertFalse($uc->canddeletesession($userid));
+        $this->AssertFalse($uc->canaddsession($cm, $userid));
+        $this->assertTrue($uc->canview($USER->id));
+        $this->AssertFalse($uc->canddeletesession($USER->id));
+        $this->AssertFalse($uc->canaddsession($cm, $USER->id));
+        
     }
 
     /**
