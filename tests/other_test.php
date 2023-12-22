@@ -82,7 +82,6 @@ class other_test extends \advanced_testcase {
         $this->assertTrue($uc->canview($USER->id));
         $this->AssertFalse($uc->canddeletesession($USER->id));
         $this->AssertFalse($uc->canaddsession($cm, $USER->id));
-        
     }
 
     /**
