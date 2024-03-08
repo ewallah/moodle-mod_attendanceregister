@@ -53,7 +53,7 @@ class classes_test extends \advanced_testcase {
     /**
      * Basic setup for these tests.
      */
-    public function setUp():void {
+    public function setUp(): void {
         $this->resetAfterTest();
         $dg = $this->getDataGenerator();
         $this->courseid = $dg->create_course()->id;

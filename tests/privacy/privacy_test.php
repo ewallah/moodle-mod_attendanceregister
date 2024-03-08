@@ -47,7 +47,7 @@ class privacy_test extends provider_testcase {
     /**
      * Basic setup for these tests.
      */
-    public function setUp():void {
+    public function setUp(): void {
         global $DB;
         $this->resetAfterTest();
         $dg = $this->getDataGenerator();
