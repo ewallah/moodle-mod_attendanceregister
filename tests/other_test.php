@@ -34,7 +34,7 @@ namespace mod_attendanceregister;
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class other_test extends \advanced_testcase {
+final class other_test extends \advanced_testcase {
 
     /**
      * Setup function.

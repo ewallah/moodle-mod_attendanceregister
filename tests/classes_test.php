@@ -36,7 +36,7 @@ use stdClass;
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class classes_test extends \advanced_testcase {
+final class classes_test extends \advanced_testcase {
 
     /** @var stdClass context context */
     private $context;
