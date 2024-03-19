@@ -35,7 +35,7 @@ require_once("attendanceregister_tracked_users.class.php");
 /**
  * Average timeout between user's requests to be considered in the same user's session
  */
-define("ATTENDANCEREGISTER_DEFAULT_SESSION_TIMEOUT", 30);
+define("ATTENDANCEREGISTER_DEFAULT_SESSION_TIMEOUT", 15); // Changed by R from 30 to 15.
 
 /**
  * Max number of days back, a user may insert an offline-work certification (if enabled)
