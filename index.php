@@ -92,13 +92,13 @@ foreach ($registers as $register) {
     if (!$register->visible) {
         // Show dimmed if the mod is hidden.
         $tthref = "<a class=\"dimmed\" href=\"view.php?id=$register->coursemodule\">" .
-           format_string($register->name, true)."</a>";
+           format_string($register->name, true) . "</a>";
     } else {
         // Show normal if the mod is visible.
-        $tthref = "<a href=\"view.php?id=$register->coursemodule\">".format_string($register->name, true)."</a>";
+        $tthref = "<a href=\"view.php?id=$register->coursemodule\">" . format_string($register->name, true) . "</a>";
     }
     if ($usesections) {
-        $table->data[] = [$printsection, $tthref, get_string('type_'.$register->type, 'attendanceregister'),  $aa];
+        $table->data[] = [$printsection, $tthref, get_string('type_' . $register->type, 'attendanceregister'), $aa];
     } else {
         $table->data[] = [$tthref, get_string($register->type, 'attendanceregister'), $aa];
     }

@@ -38,7 +38,6 @@ require_once($CFG->dirroot . '/course/moodleform_mod.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_attendanceregister_mod_form extends moodleform_mod {
-
     /**
      * Definition.
      */
@@ -70,21 +69,28 @@ class mod_attendanceregister_mod_form extends moodleform_mod {
                 30 => ('30' . $minutes),
                 45 => ('45' . $minutes),
                 60 => ('60' . $minutes), ];
-        $mform->addElement('select', 'sessiontimeout',
-            get_string('sessiontimeout', 'attendanceregister'), $sessionchoices);
+        $mform->addElement(
+            'select',
+            'sessiontimeout',
+            get_string('sessiontimeout', 'attendanceregister'),
+            $sessionchoices
+        );
         $mform->addHelpButton('sessiontimeout', 'sessiontimeout', 'attendanceregister');
         $mform->setDefault('sessiontimeout', ATTENDANCEREGISTER_DEFAULT_SESSION_TIMEOUT);
 
         $mform->addElement('header', '', get_string('offline_sessions_certification', 'attendanceregister'));
 
-        $mform->addElement('checkbox', 'offlinesessions',
-          get_string('enable_offline_sessions_certification', 'attendanceregister'));
+        $mform->addElement(
+            'checkbox',
+            'offlinesessions',
+            get_string('enable_offline_sessions_certification', 'attendanceregister')
+        );
         $mform->addHelpButton('offlinesessions', 'offline_sessions_certification', 'attendanceregister');
         $mform->setDefault('offlinesessions', false);
 
         // Number of day before a self-certification will be accepted.
-        $day = ' '.get_string('day');
-        $days = ' '.get_string('days');
+        $day = ' ' . get_string('day');
+        $days = ' ' . get_string('days');
         $dayscertificable = [
             1 => ('1' . $day),
             2 => ('2' . $days),
@@ -101,7 +107,7 @@ class mod_attendanceregister_mod_form extends moodleform_mod {
             90 => ('90' . $days),
             120 => ('120' . $days),
             180 => ('180' . $days),
-            365 => ('365'. $days), ];
+            365 => ('365' . $days), ];
         $mform->addElement('select', 'dayscertificable', get_string('dayscertificable', 'attendanceregister'), $dayscertificable);
         $mform->addHelpButton('dayscertificable', 'dayscertificable', 'attendanceregister');
         $mform->setDefault('dayscertificable', ATTENDANCEREGISTER_DEFAULT_DAYS_CERTIFICABLE);
@@ -112,8 +118,11 @@ class mod_attendanceregister_mod_form extends moodleform_mod {
         $mform->setDefault('offlinecomments', false);
         $mform->disabledIf('offlinecomments', 'offlinesessions');
 
-        $mform->addElement('checkbox', 'mandatoryofflinecomm',
-            get_string('mandatory_offline_sessions_comments', 'attendanceregister'));
+        $mform->addElement(
+            'checkbox',
+            'mandatoryofflinecomm',
+            get_string('mandatory_offline_sessions_comments', 'attendanceregister')
+        );
         $mform->setDefault('mandatoryofflinecomm', false);
         $mform->disabledIf('mandatoryofflinecomm', 'offlinesessions');
         $mform->disabledIf('mandatoryofflinecomm', 'offlinecomments');
@@ -143,12 +152,21 @@ class mod_attendanceregister_mod_form extends moodleform_mod {
     public function add_completion_rules() {
         $mform =& $this->_form;
         $group = [];
-        $group[] =& $mform->createElement('checkbox', 'completiontotaldurationenabled', ' ',
-            get_string('completiontotalduration', 'attendanceregister'));
+        $group[] =& $mform->createElement(
+            'checkbox',
+            'completiontotaldurationenabled',
+            ' ',
+            get_string('completiontotalduration', 'attendanceregister')
+        );
         $group[] =& $mform->createElement('text', 'completiontotaldurationmins', ' ', ['size' => 4]);
         $mform->setType('completiontotaldurationmins', PARAM_INT);
-        $mform->addGroup($group, 'completiondurationgroup', get_string('completiondurationgroup', 'attendanceregister'),
-            [' '], false);
+        $mform->addGroup(
+            $group,
+            'completiondurationgroup',
+            get_string('completiondurationgroup', 'attendanceregister'),
+            [' '],
+            false
+        );
         $mform->disabledIf('completiontotaldurationmins', 'completiontotaldurationenabled', 'notchecked');
         return ['completiondurationgroup'];
     }

@@ -50,7 +50,8 @@ class restore_attendanceregister_activity_task extends restore_activity_task {
      */
     protected function define_my_steps() {
         $this->add_step(
-           new restore_attendanceregister_activity_structure_step('attendanceregister_structure', 'attendanceregister.xml'));
+            new restore_attendanceregister_activity_structure_step('attendanceregister_structure', 'attendanceregister.xml')
+        );
     }
 
     /**
@@ -69,16 +70,31 @@ class restore_attendanceregister_activity_task extends restore_activity_task {
      */
     public static function define_decode_rules() {
         $rules = [];
-        $rules[] = new restore_decode_rule('ATTENDANCEREGISTERINDEX',
-            '/mod/attendanceregister/index.php?id=$1', 'course');
-        $rules[] = new restore_decode_rule('ATTENDANCEREGISTERVIEWBYID',
-            '/mod/attendanceregister/view.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('ATTENDANCEREGISTERVIEWBYREGISTERID',
-            '/mod/attendanceregister/view.php?a=$1', 'attendanceregister');
-        $rules[] = new restore_decode_rule('ATTENDANCEREGISTERVIEWUSERBYID',
-            '/mod/attendanceregister/view.php?id=$1&userid=$2', ['course_module', 'user']);
-        $rules[] = new restore_decode_rule('ATTENDANCEREGISTERVIEWUSERBYREGISTERID',
-            '/mod/attendanceregister/view.php?a=$1&userid=$2', ['attendanceregister', 'user']);
+        $rules[] = new restore_decode_rule(
+            'ATTENDANCEREGISTERINDEX',
+            '/mod/attendanceregister/index.php?id=$1',
+            'course'
+        );
+        $rules[] = new restore_decode_rule(
+            'ATTENDANCEREGISTERVIEWBYID',
+            '/mod/attendanceregister/view.php?id=$1',
+            'course_module'
+        );
+        $rules[] = new restore_decode_rule(
+            'ATTENDANCEREGISTERVIEWBYREGISTERID',
+            '/mod/attendanceregister/view.php?a=$1',
+            'attendanceregister'
+        );
+        $rules[] = new restore_decode_rule(
+            'ATTENDANCEREGISTERVIEWUSERBYID',
+            '/mod/attendanceregister/view.php?id=$1&userid=$2',
+            ['course_module', 'user']
+        );
+        $rules[] = new restore_decode_rule(
+            'ATTENDANCEREGISTERVIEWUSERBYREGISTERID',
+            '/mod/attendanceregister/view.php?a=$1&userid=$2',
+            ['attendanceregister', 'user']
+        );
         return $rules;
     }
 }

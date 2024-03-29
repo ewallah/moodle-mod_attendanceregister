@@ -34,7 +34,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class attendanceregister_user_aggregates {
-
     /** @var int grandtotal total of all sessions */
     public $grandtotal = 0;
 

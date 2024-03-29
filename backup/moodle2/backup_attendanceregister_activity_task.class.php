@@ -38,7 +38,6 @@ require_once($CFG->dirroot . '/mod/attendanceregister/backup/moodle2/backup_atte
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_attendanceregister_activity_task extends backup_activity_task {
-
     /**
      * Define (add) particular settings this activity can have
      */
@@ -51,7 +50,9 @@ class backup_attendanceregister_activity_task extends backup_activity_task {
      */
     protected function define_my_steps() {
         $this->add_step(new backup_attendanceregister_activity_structure_step(
-            'attendanceregister_structure', 'attendanceregister.xml'));
+            'attendanceregister_structure',
+            'attendanceregister.xml'
+        ));
     }
 
     /**
@@ -62,15 +63,15 @@ class backup_attendanceregister_activity_task extends backup_activity_task {
     public static function encode_content_links($content) {
         global $CFG;
         $base = preg_quote($CFG->wwwroot, "/");
-        $search = "/(".$base."\/mod\/attendanceregister\/index.php\?id\=)([0-9]+)/";
+        $search = "/(" . $base . "\/mod\/attendanceregister\/index.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@ATTENDANCEREGISTERINDEX*$2@$', $content);
-        $search = "/(".$base."\/mod\/attendanceregister\/view.php\?id\=)([0-9]+)/";
+        $search = "/(" . $base . "\/mod\/attendanceregister\/view.php\?id\=)([0-9]+)/";
         $content = preg_replace($search, '$@ATTENDANCEREGISTERVIEWBYID*$2@$', $content);
-        $search = "/(".$base."\/mod\/attendanceregister\/view.php\?a\=)([0-9]+)/";
+        $search = "/(" . $base . "\/mod\/attendanceregister\/view.php\?a\=)([0-9]+)/";
         $content = preg_replace($search, '$@ATTENDANCEREGISTERVIEWBYREGISTERID*$2@$', $content);
-        $search = "/(".$base."\/mod\/attendanceregister\/view.php\?id\=)([0-9]+)\&userid\=([0-9]+)/";
+        $search = "/(" . $base . "\/mod\/attendanceregister\/view.php\?id\=)([0-9]+)\&userid\=([0-9]+)/";
         $content = preg_replace($search, '$@ATTENDANCEREGISTERVIEWUSERBYID*$2*$3@$', $content);
-        $search = "/(".$base."\/mod\/attendanceregister\/view.php\?a\=)([0-9]+)\&userid\=([0-9]+)/";
+        $search = "/(" . $base . "\/mod\/attendanceregister\/view.php\?a\=)([0-9]+)\&userid\=([0-9]+)/";
         $content = preg_replace($search, '$@ATTENDANCEREGISTERVIEWUSERBYREGISTERID*$2*$3@$', $content);
         return $content;
     }

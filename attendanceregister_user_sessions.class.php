@@ -34,7 +34,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class attendanceregister_user_sessions {
-
     /** @var attendanceregister_session $usersessions */
     public $usersessions;
 
@@ -108,11 +107,18 @@ class attendanceregister_user_sessions {
 
                 $rowcountstr = (string)$rowcount;
                 if (!$session->onlinesess) {
-                    $deleteurl = attendanceregister_makeurl($this->register, $session->userid, null,
-                        ATTENDANCEREGISTER_ACTION_DELETE_OFFLINE_SESSION, ['session' => $session->id]);
+                    $deleteurl = attendanceregister_makeurl(
+                        $this->register,
+                        $session->userid,
+                        null,
+                        ATTENDANCEREGISTER_ACTION_DELETE_OFFLINE_SESSION,
+                        ['session' => $session->id]
+                    );
                     $confirm = new confirm_action(get_string('are_you_sure_to_delete_offline_session', 'attendanceregister'));
-                    $rowcountstr .= ' ' . $OUTPUT->action_icon($deleteurl, new pix_icon('t/delete',
-                       get_string('delete')), $confirm);
+                    $rowcountstr .= ' ' . $OUTPUT->action_icon($deleteurl, new pix_icon(
+                        't/delete',
+                        get_string('delete')
+                    ), $confirm);
                 }
 
                 $duration = attendanceregister_format_duration($session->duration);
@@ -142,7 +148,7 @@ class attendanceregister_user_sessions {
                         if (!$session->onlinesess) {
                             if ($session->refcourse) {
                                 $refcourse = $this->trackedcourses->courses[$session->refcourse];
-                                $s = $refcourse->fullname . ' ('. $refcourse->shortname .')';
+                                $s = $refcourse->fullname . ' (' . $refcourse->shortname . ')';
                             } else {
                                 $s = get_string('not_specified', 'attendanceregister');
                             }

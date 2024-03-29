@@ -99,7 +99,6 @@ $dosaveofflinesession = false;
 if ($register->offlinesessions &&  !$printable) {
     // Only if User is NOT logged-in-as, or ATTENDANCEREGISTER_ALLOW_LOGINAS_OFFLINE_SESSIONS is enabled.
     if (!\core\session\manager::is_loggedinas() || ATTENDANCEREGISTER_ALLOW_LOGINAS_OFFLINE_SESSIONS) {
-
         // If user is on his own Register and may save own Sessions
         // or is on other's Register and may save other's Sessions..
         if ($usercaps->canaddsession($register, $userid)) {
@@ -178,7 +177,6 @@ echo $OUTPUT->heading(format_string($register->name . $str));
 $doshowcontents = true;
 $mform = null;
 if ($userid && $doshowofflinesessionform && !$printable) {
-
     // Prepare form.
     $customformdata = ['register' => $register, 'courses' => $usersessions->trackedcourses->courses];
     // Also pass userid only if is saving for another user.
@@ -199,7 +197,7 @@ if ($userid && $doshowofflinesessionform && !$printable) {
     }
 }
 
-if ($doshowcontents && ($dorecalc||$doschedrecalc)) {
+if ($doshowcontents && ($dorecalc || $doschedrecalc)) {
     if ($usertoprocess) {
         $progressbar = new progress_bar('recalcbar', 500, true);
         attendanceregister_force_recalc_user_sessions($register, $userid, $progressbar);
@@ -222,7 +220,7 @@ if ($doshowcontents && ($dorecalc||$doschedrecalc)) {
                 attendanceregister_force_recalc_user_sessions($register, $user->id, $progressbar, false);
                 // No delete needed, having done before [issue #14].
             }
-            $trackedusers = new attendanceregister_tracked_users($register, $usercaps,  $groupid);
+            $trackedusers = new attendanceregister_tracked_users($register, $usercaps, $groupid);
         }
     }
     if ($dorecalc || $doschedrecalc) {
@@ -240,8 +238,11 @@ if ($doshowcontents && ($dorecalc||$doschedrecalc)) {
     if ($userid) {
         echo $OUTPUT->container_start('attendanceregister_buttonbar btn-group');
         if ($usercaps->canviewother && !$printable) {
-            echo $OUTPUT->single_button(attendanceregister_makeurl($register),
-                get_string('back_to_tracked_user_list', 'attendanceregister'), 'get');
+            echo $OUTPUT->single_button(
+                attendanceregister_makeurl($register),
+                get_string('back_to_tracked_user_list', 'attendanceregister'),
+                'get'
+            );
             $logurl = new moodle_url('/report/log/index.php', ['chooselog' => 1, 'showusers' => 1,
                'showcourses' => 1, 'id' => 1, 'user' => $userid, 'logformat' => 'showashtml', ]);
             echo $OUTPUT->single_button($logurl, 'Logs', 'get');

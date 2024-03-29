@@ -32,4 +32,3 @@ $plugin->component = 'mod_attendanceregister';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->supported = [402, 403];
 $plugin->release = 'v4.2.1';
-

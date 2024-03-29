@@ -237,8 +237,13 @@ function attendanceregister_supports($feature) {
  */
 function attendanceregister_get_coursemodule_info($coursemodule) {
     global $DB;
-    if (!$register = $DB->get_record('attendanceregister', ['id' => $coursemodule->instance],
-        'id, name, intro, introformat, type')) {
+    if (
+        !$register = $DB->get_record(
+            'attendanceregister',
+            ['id' => $coursemodule->instance],
+            'id, name, intro, introformat, type'
+        )
+    ) {
         return false;
     }
 
@@ -353,7 +358,6 @@ function attendanceregister_extend_settings_navigation(settings_navigation $sett
             $linkurl = attendanceregister_makeurl($register, $userid, null, ATTENDANCEREGISTER_ACTION_RECALCULATE);
             $menuentry = get_string('force_recalc_user_session', 'attendanceregister');
             $node->add($menuentry, $linkurl, navigation_node::TYPE_SETTING);
-
         } else {
             // All Users view.
             $linkurl = attendanceregister_makeurl($register, null, null, ATTENDANCEREGISTER_ACTION_RECALCULATE);
@@ -370,7 +374,6 @@ function attendanceregister_extend_settings_navigation(settings_navigation $sett
             }
         }
     }
-
 }
 
 /**
@@ -538,8 +541,10 @@ function attendanceregister_check_user_sessions_need_update($register, $userid, 
         $lastlogout = 0;
         return true;
     }
-    if (($user->currentlogin > $aggregate->lastsessionlogout) &&
-        ((time() - $user->currentlogin) > ($register->sessiontimeout * 60))) {
+    if (
+        ($user->currentlogin > $aggregate->lastsessionlogout) &&
+        ((time() - $user->currentlogin) > ($register->sessiontimeout * 60))
+    ) {
         $lastlogout = $aggregate->lastsessionlogout;
         return true;
     } else {
@@ -640,7 +645,7 @@ function attendanceregister_save_offline_session($register, $formdata) {
         $session->addedbyuserid = $USER->id;
     }
     $DB->insert_record('attendanceregister_session', $session);
-    attendanceregister__update_user_aggregates($register,  $session->userid);
+    attendanceregister__update_user_aggregates($register, $session->userid);
 }
 
 /**
@@ -681,8 +686,14 @@ function attendanceregister_set_pending_recalc($register, $pending) {
  * @param array   $additional   (opt) other parameters
  * @param boolean $forlog       (def=false) if true prepare the URL for add_to_log (i.e. w/o the prefix '/mod/attendanceregister/')
  */
-function attendanceregister_makeurl($register, $userid = null, $groupid = null, $action = null,
-    $additional = null, $forlog = false) {
+function attendanceregister_makeurl(
+    $register,
+    $userid = null,
+    $groupid = null,
+    $action = null,
+    $additional = null,
+    $forlog = false
+) {
 
     $params = ['a' => $register->id];
     if ($userid) {

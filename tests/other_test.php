@@ -35,7 +35,6 @@ namespace mod_attendanceregister;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 final class other_test extends \advanced_testcase {
-
     /**
      * Setup function.
      */
@@ -157,7 +156,7 @@ final class other_test extends \advanced_testcase {
 
         $i = 0;
         $coursecontext = \context_course::instance($course->id);
-        while ($i < 10 ) {
+        while ($i < 10) {
             page_view($page, $course, $cm, $context);
             $event = \mod_page\event\course_module_instance_list_viewed::create(['context' => $coursecontext]);
             $event->add_record_snapshot('course', $course);
@@ -213,15 +212,27 @@ final class other_test extends \advanced_testcase {
         $this->setAdminUser();
         $task = new \mod_attendanceregister\task\cron_task();
         $task->execute();
-        $bc = new \backup_controller(\backup::TYPE_1COURSE, $courseid, \backup::FORMAT_MOODLE,
-            \backup::INTERACTIVE_NO, \backup::MODE_IMPORT, $USER->id);
+        $bc = new \backup_controller(
+            \backup::TYPE_1COURSE,
+            $courseid,
+            \backup::FORMAT_MOODLE,
+            \backup::INTERACTIVE_NO,
+            \backup::MODE_IMPORT,
+            $USER->id
+        );
         $backupid = $bc->get_backupid();
         $bc->execute_plan();
         $bc->destroy();
         unset($bc);
         $courseid = $dg->create_course()->id;
-        $rc = new \restore_controller($backupid, $courseid, \backup::INTERACTIVE_NO,
-            \backup::MODE_IMPORT, $USER->id, \backup::TARGET_CURRENT_ADDING);
+        $rc = new \restore_controller(
+            $backupid,
+            $courseid,
+            \backup::INTERACTIVE_NO,
+            \backup::MODE_IMPORT,
+            $USER->id,
+            \backup::TARGET_CURRENT_ADDING
+        );
         $rc->execute_precheck();
         $rc->execute_plan();
         $rc->destroy();

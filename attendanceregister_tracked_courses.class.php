@@ -36,7 +36,6 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class attendanceregister_tracked_courses {
-
     /** @var array $courses Array of Courses - Keyed by CourseID */
     public $courses;
 

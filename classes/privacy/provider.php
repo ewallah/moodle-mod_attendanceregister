@@ -45,10 +45,7 @@ use core_privacy\local\request\approved_userlist;
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\metadata\provider,
-                          \core_privacy\local\request\plugin\provider,
-                          \core_privacy\local\request\core_userlist_provider {
-
+class provider implements \core_privacy\local\request\core_userlist_provider, \core_privacy\local\metadata\provider, \core_privacy\local\request\plugin\provider {
     /**
      * Returns information about how attendanceregister stores its data.
      *
@@ -152,8 +149,11 @@ class provider implements \core_privacy\local\metadata\provider,
                 }
                 $recordset->close();
                 if (!empty($data)) {
-                    writer::with_context($context)->export_related_data([], 'sessions',
-                        (object) ['sessions' => array_values($data)]);
+                    writer::with_context($context)->export_related_data(
+                        [],
+                        'sessions',
+                        (object) ['sessions' => array_values($data)]
+                    );
                 }
             }
         }
@@ -201,7 +201,7 @@ class provider implements \core_privacy\local\metadata\provider,
         global $DB;
         $context = $userlist->get_context();
         if ($context->contextlevel == CONTEXT_SYSTEM) {
-            list($userinsql, $params) = $DB->get_in_or_equal($userlist->get_userids(), SQL_PARAMS_NAMED);
+            [$userinsql, $params] = $DB->get_in_or_equal($userlist->get_userids(), SQL_PARAMS_NAMED);
             $DB->delete_records_select('attendanceregister_session', "userid {$userinsql}", $params);
             $DB->delete_records_select('attendanceregister_session', "addedbyuserid {$userinsql}", $params);
             $DB->delete_records_select('attendanceregister_aggregate', "userid {$userinsql}", $params);

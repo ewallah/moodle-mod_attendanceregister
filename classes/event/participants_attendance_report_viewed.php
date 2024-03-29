@@ -35,7 +35,6 @@ namespace mod_attendanceregister\event;
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class participants_attendance_report_viewed extends \core\event\base {
-
     /**
      * Init method.
      */

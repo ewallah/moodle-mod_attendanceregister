@@ -34,20 +34,26 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_attendanceregister_activity_structure_step extends backup_activity_structure_step {
-
     /**
      * Define the structure of the backup workflow.
      *
      * @return restore_path_element $structure
      */
     protected function define_structure() {
-        $attendanceregister = new backup_nested_element('attendanceregister', ['id'],
-            ['name', 'intro', 'introformat' , 'type', 'offlinesessions', 'sessiontimeout', 'dayscertificable',
+        $attendanceregister = new backup_nested_element(
+            'attendanceregister',
+            ['id'],
+            ['name', 'intro', 'introformat', 'type', 'offlinesessions', 'sessiontimeout', 'dayscertificable',
              'offlinecomments', 'mandatoryofflinecomm', 'offlinespecifycourse', 'mandofflspeccourse', 'timemodified',
-             'completiontotaldurationmins', ]);
+            'completiontotaldurationmins',
+            ]
+        );
         $sessions = new backup_nested_element('sessions');
-        $session = new backup_nested_element('session', ['id'],
-            ['userid', 'login', 'logout', 'duration', 'onlinesess', 'refcourseshortname', 'comments', 'addedbyuserid']);
+        $session = new backup_nested_element(
+            'session',
+            ['id'],
+            ['userid', 'login', 'logout', 'duration', 'onlinesess', 'refcourseshortname', 'comments', 'addedbyuserid']
+        );
 
         // Builds the tree.
         $attendanceregister->add_child($sessions);

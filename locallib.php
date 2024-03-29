@@ -268,12 +268,22 @@ function attendanceregister__get_tracked_users($register, $groupid = '') {
     $courseids = attendanceregister__get_tracked_courses_ids($register, $course);
     foreach ($courseids as $courseid) {
         $context = context_course::instance($courseid);
-        $users = get_users_by_capability($context, 'mod/attendanceregister:viewownregister',
-            '', '', '', '', $groupid, '', false, true);
+        $users = get_users_by_capability(
+            $context,
+            'mod/attendanceregister:viewownregister',
+            '',
+            '',
+            '',
+            '',
+            $groupid,
+            '',
+            false,
+            true
+        );
         $userids = array_merge($users, $userids);
     }
     $unique = attendanceregister__unique_object_array_by_id($userids);
-    usort($unique, function($a, $b) {
+    usort($unique, function ($a, $b) {
         return strcmp(fullname($a), fullname($b));
     });
     return $unique;
@@ -295,7 +305,7 @@ function attendanceregister__get_tracked_users_need_update($register) {
     $trackedcoursesids = attendanceregister__get_tracked_courses_ids($register, $thiscourse);
     foreach ($trackedcoursesids as $courseid) {
         $context = context_course::instance($courseid);
-        list($esql, $params) = get_enrolled_sql($context, ATTENDANCEREGISTER_CAPABILITY_TRACKED);
+        [$esql, $params] = get_enrolled_sql($context, ATTENDANCEREGISTER_CAPABILITY_TRACKED);
         $sql = "SELECT u.* FROM {user} u JOIN ($esql) je ON je.id = u.id
                 WHERE u.lastaccess + (:sesstimeout * 60) < :now
                   AND (NOT EXISTS (SELECT * FROM {attendanceregister_session} as3
@@ -487,7 +497,6 @@ function attendanceregister__check_overlapping_current_session($register, $useri
         }
     }
     return ($user->currentlogin < $logout);
-
 }
 
 /**
@@ -558,8 +567,11 @@ function attendanceregister__delete_user_aggregates($register, $userid) {
  */
 function attendanceregister__get_user_oldest_log_entry_timestamp($userid) {
     global $DB;
-    $obj = $DB->get_record_sql('SELECT MIN(time) as oldestlogtime FROM {log} WHERE userid = :userid',
-       [ 'userid' => $userid], IGNORE_MISSING);
+    $obj = $DB->get_record_sql(
+        'SELECT MIN(time) as oldestlogtime FROM {log} WHERE userid = :userid',
+        [ 'userid' => $userid],
+        IGNORE_MISSING
+    );
     if ($obj) {
         return $obj->oldestlogtime;
     }
@@ -731,7 +743,7 @@ function attendanceregister__othername($otherid) {
  * @return boolean TRUE if any completion condition is enabled
  */
 function attendanceregister__iscondition($register) {
-    return (boolean)($register->completiontotaldurationmins);
+    return (bool)($register->completiontotaldurationmins);
 }
 
 /**
@@ -804,7 +816,6 @@ function attendanceregister__didcronran($cm) {
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_attendanceregister_selfcertification_edit_form extends moodleform {
-
     /**
      * Definition.
      */
@@ -834,12 +845,20 @@ class mod_attendanceregister_selfcertification_edit_form extends moodleform {
             $title = get_string('insert_new_offline_session_for_another_user', 'attendanceregister', $a);
         }
         $mform->addElement('html', '<h3>' . $title . '</h3>');
-        $mform->addElement('date_time_selector', 'login', get_string('offline_session_start', 'attendanceregister'),
-           ['defaulttime' => $deflogin, 'optional' => false]);
+        $mform->addElement(
+            'date_time_selector',
+            'login',
+            get_string('offline_session_start', 'attendanceregister'),
+            ['defaulttime' => $deflogin, 'optional' => false]
+        );
         $mform->addRule('login', get_string('required'), 'required');
         $mform->addHelpButton('login', 'offline_session_start', 'attendanceregister');
-        $mform->addElement('date_time_selector', 'logout', get_string('offline_session_end', 'attendanceregister'),
-           ['defaulttime' => $deflogout, 'optional' => false]);
+        $mform->addElement(
+            'date_time_selector',
+            'logout',
+            get_string('offline_session_end', 'attendanceregister'),
+            ['defaulttime' => $deflogout, 'optional' => false]
+        );
         $mform->addRule('logout', get_string('required'), 'required');
 
         if ($register->offlinecomments) {
@@ -863,8 +882,12 @@ class mod_attendanceregister_selfcertification_edit_form extends moodleform {
             foreach ($courses as $course) {
                 $coursesselect[$course->id] = $course->fullname;
             }
-            $mform->addElement('select', 'refcourse',
-                get_string('offline_session_ref_course', 'attendanceregister'), $coursesselect);
+            $mform->addElement(
+                'select',
+                'refcourse',
+                get_string('offline_session_ref_course', 'attendanceregister'),
+                $coursesselect
+            );
             if ($register->mandofflspeccourse) {
                 $mform->addRule('refcourse', get_string('required'), 'required', null, 'client');
             }
@@ -876,7 +899,7 @@ class mod_attendanceregister_selfcertification_edit_form extends moodleform {
         $mform->setDefault('a', $register->id);
         $mform->addElement('hidden', 'action');
         $mform->setType('action', PARAM_ACTION);
-        $mform->setDefault('action',  ATTENDANCEREGISTER_ACTION_SAVE_OFFLINE_SESSION);
+        $mform->setDefault('action', ATTENDANCEREGISTER_ACTION_SAVE_OFFLINE_SESSION);
         if ($userid) {
             $mform->addElement('hidden', 'userid');
             $mform->setType('userid', PARAM_INT);
@@ -938,7 +961,6 @@ class mod_attendanceregister_selfcertification_edit_form extends moodleform {
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class attendanceregister_user_capablities {
-
     /** @var bool istracked */
     public $istracked = false;
     /** @var bool canviewown */
