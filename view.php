@@ -58,17 +58,17 @@ if ($inputsessionid) {
 
 require_course_login($course, false, $cm);
 
-if (!($context = context_module::instance($cm->id))) {
+if (!($context = \context_module::instance($cm->id))) {
     throw new \moodle_exception('badcontext');
 }
 
-$usercaps = new attendanceregister_user_capablities($context);
+$usercaps = new \mod_attendanceregister\user_capabilities($context);
 if (!$userid && !$usercaps->canviewother) {
     $userid = $USER->id;
 }
 
 // Requires capabilities to view own or others' register.
-if (attendanceregister__iscurrentuser($userid)) {
+if (\mod_attendanceregister\attendanceregister::iscurrentuser($userid)) {
     require_capability(ATTENDANCEREGISTER_CAPABILITY_VIEW_OWN_REGISTERS, $context);
 } else {
     require_capability(ATTENDANCEREGISTER_CAPABILITY_VIEW_OTHER_REGISTERS, $context);
@@ -108,7 +108,7 @@ if ($register->offlinesessions &&  !$printable) {
             // If action is saving Offline Session...
             if ($inputaction == ATTENDANCEREGISTER_ACTION_SAVE_OFFLINE_SESSION) {
                 // Check Capabilities, to show an error if a security violation attempt occurs.
-                if (attendanceregister__iscurrentcser($userid)) {
+                if (mod_attendanceregister\attendanceregister::iscurrentcser($userid)) {
                     require_capability(ATTENDANCEREGISTER_CAPABILITY_ADD_OWN_OFFLINE_SESSIONS, $context);
                 } else {
                     require_capability(ATTENDANCEREGISTER_CAPABILITY_ADD_OTHER_OFFLINE_SESSIONS, $context);
@@ -127,7 +127,7 @@ if ($sessiontodelete) {
     // Check if logged-in-as Session Delete.
     if (session_is_loggedinas() && !ATTENDANCEREGISTER_ACTION_SAVE_OFFLINE_SESSION) {
         throw new \moodle_exception('onlyrealusercandeleteofflinesessions', 'attendanceregister');
-    } else if (attendanceregister__iscurrentuser($userid)) {
+    } else if (\mod_attendanceregister\attendanceregister::iscurrentuser($userid)) {
         require_capability(ATTENDANCEREGISTER_CAPABILITY_DELETE_OWN_OFFLINE_SESSIONS, $context);
         $dodeleteofflinesession = true;
     } else {
@@ -144,11 +144,11 @@ $usersessions = null;
 $trackedusers = null;
 $str = '';
 if ($userid) {
-    $usertoprocess = attendanceregister__getuser($userid);
-    $usersessions = new attendanceregister_user_sessions($register, $userid, $usercaps);
+    $usertoprocess = \mod_attendanceregister\attendanceregister::getuser($userid);
+    $usersessions = new \mod_attendanceregister\user_sessions($register, $userid, $usercaps);
     $str = ': ' . fullname($usertoprocess);
 } else {
-    $trackedusers = new attendanceregister_tracked_users($register, $usercaps, $groupid);
+    $trackedusers = new \mod_attendanceregister\tracked_users($register, $usercaps, $groupid);
 }
 
 $url = attendanceregister_makeurl($register, $userid, $groupid, $inputaction);
@@ -180,7 +180,7 @@ if ($userid && $doshowofflinesessionform && !$printable) {
     // Prepare form.
     $customformdata = ['register' => $register, 'courses' => $usersessions->trackedcourses->courses];
     // Also pass userid only if is saving for another user.
-    if (!attendanceregister__iscurrentuser($userid)) {
+    if (!\mod_attendanceregister\attendanceregister::iscurrentuser($userid)) {
         $customformdata['userid'] = $userid;
     }
     $mform = new mod_attendanceregister_selfcertification_edit_form(null, $customformdata);
@@ -201,7 +201,7 @@ if ($doshowcontents && ($dorecalc || $doschedrecalc)) {
     if ($usertoprocess) {
         $progressbar = new progress_bar('recalcbar', 500, true);
         attendanceregister_force_recalc_user_sessions($register, $userid, $progressbar);
-        $usersessions = new attendanceregister_user_sessions($register, $userid, $usercaps);
+        $usersessions = new \mod_attendanceregister\user_sessions($register, $userid, $usercaps);
     } else {
         if ($doschedrecalc) {
             if (!$register->pendingrecalc) {
@@ -220,7 +220,7 @@ if ($doshowcontents && ($dorecalc || $doschedrecalc)) {
                 attendanceregister_force_recalc_user_sessions($register, $user->id, $progressbar, false);
                 // No delete needed, having done before [issue #14].
             }
-            $trackedusers = new attendanceregister_tracked_users($register, $usercaps, $groupid);
+            $trackedusers = new \mod_attendanceregister\tracked_users($register, $usercaps, $groupid);
         }
     }
     if ($dorecalc || $doschedrecalc) {
@@ -243,7 +243,7 @@ if ($doshowcontents && ($dorecalc || $doschedrecalc)) {
                 get_string('back_to_tracked_user_list', 'attendanceregister'),
                 'get'
             );
-            $logurl = new moodle_url('/report/log/index.php', ['chooselog' => 1, 'showusers' => 1,
+            $logurl = new \moodle_url('/report/log/index.php', ['chooselog' => 1, 'showusers' => 1,
                'showcourses' => 1, 'id' => 1, 'user' => $userid, 'logformat' => 'showashtml', ]);
             echo $OUTPUT->single_button($logurl, 'Logs', 'get');
         }
@@ -255,15 +255,15 @@ if ($doshowcontents && ($dorecalc || $doschedrecalc)) {
             $mform->display();
             echo $OUTPUT->box_end();
         }
-        echo html_writer::div(html_writer::table($usersessions->useraggregates->html_table()), 'table-responsive');
-        echo html_writer::div(html_writer::table($usersessions->html_table()), 'table-responsive');
+        echo \html_writer::div(\html_writer::table($usersessions->useraggregates->html_table()), 'table-responsive');
+        echo \html_writer::div(\html_writer::table($usersessions->html_table()), 'table-responsive');
     } else {
         if ($usercaps->canrecalc && !$printable) {
             echo groups_allgroups_course_menu($course, $url, true, $groupid);
         }
         if ($register->pendingrecalc && $usercaps->canrecalc && !$printable) {
             echo $OUTPUT->notification(get_string('recalc_scheduled_on_next_cron', 'attendanceregister'));
-        } else if (!attendanceregister__didcronran($cm)) {
+        } else if (!\mod_attendanceregister\attendanceregister::didcronran($cm)) {
             echo $OUTPUT->notification(get_string('first_calc_at_next_cron_run', 'attendanceregister'));
         }
         echo $OUTPUT->container_start('attendanceregister_buttonbar btn-group');
@@ -273,8 +273,8 @@ if ($doshowcontents && ($dorecalc || $doschedrecalc)) {
         }
         echo $OUTPUT->container_end();
         echo '<br />';
-        echo html_writer::div(html_writer::table($trackedusers->trackedcourses->html_table()), 'table-responsive');
-        echo html_writer::div(html_writer::table($trackedusers->html_table()), 'table-responsive');
+        echo \html_writer::div(\html_writer::table($trackedusers->trackedcourses->html_table()), 'table-responsive');
+        echo \html_writer::div(\html_writer::table($trackedusers->html_table()), 'table-responsive');
     }
 }
 

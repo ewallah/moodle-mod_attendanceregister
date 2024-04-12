@@ -24,6 +24,12 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_attendanceregister;
+
+use html_table;
+use html_table_cell;
+use html_table_row;
+
 /**
  * User aggregates
  *
@@ -33,7 +39,7 @@
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class attendanceregister_user_aggregates {
+class user_aggregates {
     /** @var int grandtotal total of all sessions */
     public $grandtotal = 0;
 
@@ -64,15 +70,15 @@ class attendanceregister_user_aggregates {
     /**
      * Create an instance for a given register and user
      *
-     * @param object                           $register
-     * @param int                              $userid
-     * @param attendanceregister_user_sessions $sessions
+     * @param object $register
+     * @param int  $userid
+     * @param user_sessions $sessions
      */
-    public function __construct($register, $userid, attendanceregister_user_sessions $sessions) {
+    public function __construct($register, $userid, user_sessions $sessions) {
         $this->usersessions = $sessions;
-        $this->user = attendanceregister__getuser($userid);
+        $this->user = attendanceregister::getuser($userid);
         $this->sessions = $sessions;
-        $aggregates = attendanceregister__get_user_aggregates($register, $userid);
+        $aggregates = attendanceregister::get_user_aggregates($register, $userid);
         foreach ($aggregates as $aggregate) {
             if ($aggregate->grandtotal) {
                 $this->grandtotal = $aggregate->duration;
@@ -109,28 +115,28 @@ class attendanceregister_user_aggregates {
         $label = new html_table_cell(get_string('prev_site_login', 'attendanceregister'));
         $label->colspan = 2;
         $row->cells[] = $label;
-        $row->cells[] = new html_table_cell(attendanceregister__formatdate($this->user->lastlogin));
+        $row->cells[] = new html_table_cell(attendanceregister::formatdate($this->user->lastlogin));
         $table->data[] = $row;
 
         $row = new html_table_row();
         $label = new html_table_cell(get_string('last_site_login', 'attendanceregister'));
         $label->colspan = 2;
         $row->cells[] = $label;
-        $row->cells[] = new html_table_cell(attendanceregister__formatdate($this->user->currentlogin));
+        $row->cells[] = new html_table_cell(attendanceregister::formatdate($this->user->currentlogin));
         $table->data[] = $row;
 
         $row = new html_table_row();
         $label = new html_table_cell(get_string('last_site_access', 'attendanceregister'));
         $label->colspan = 2;
         $row->cells[] = $label;
-        $row->cells[] = new html_table_cell(attendanceregister__formatdate($this->user->lastaccess));
+        $row->cells[] = new html_table_cell(attendanceregister::formatdate($this->user->lastaccess));
         $table->data[] = $row;
 
         $row = new html_table_row();
         $label = new html_table_cell(get_string('last_calc_online_session_logout', 'attendanceregister'));
         $label->colspan = 2;
         $row->cells[] = $label;
-        $row->cells[] = new html_table_cell(attendanceregister__formatdate($this->lastlogout));
+        $row->cells[] = new html_table_cell(attendanceregister::formatdate($this->lastlogout));
         $table->data[] = $row;
 
         $table->data[] = 'hr';
@@ -144,14 +150,12 @@ class attendanceregister_user_aggregates {
         $table->data[] = $row;
         if ($this->offlinetotal) {
             $table->data[] = 'hr';
-            foreach ($this->percourse as $refcourseid => $offlinesessions) {
+            foreach ($this->percourse as $refid => $offlinesessions) {
                 $row = new html_table_row();
                 $row->cells[] = new html_table_cell(get_string('offline_refcourse_duration', 'attendanceregister'));
-                if ($refcourseid) {
-                    $row->cells[] = new html_table_cell($this->usersessions->trackedcourses->courses[$refcourseid]->fullname);
-                } else {
-                    $row->cells[] = new html_table_cell(get_string('not_specified', 'attendanceregister'));
-                }
+                $str = get_string('not_specified', 'attendanceregister');
+                $tmp = $refid ? $this->usersessions->trackedcourses->courses[$refid]->fullname : $str;
+                $row->cells[] = new html_table_cell($tmp);
                 $row->cells[] = new html_table_cell(attendanceregister_format_duration($offlinesessions));
                 $table->data[] = $row;
             }

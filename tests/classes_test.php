@@ -65,11 +65,12 @@ final class classes_test extends \advanced_testcase {
 
     /**
      * Test tracked courses.
-     * @covers \attendanceregister_tracked_courses
-     * @covers \attendanceregister_tracked_users
-     * @covers \attendanceregister_user_aggregates
-     * @covers \attendanceregister_user_sessions
-     * @covers \attendanceregister_user_aggregates_summary
+     * @covers \mod_attendanceregister\attendanceregister
+     * @covers \mod_attendanceregister\tracked_courses
+     * @covers \mod_attendanceregister\tracked_users
+     * @covers \mod_attendanceregister\user_aggregates
+     * @covers \mod_attendanceregister\user_sessions
+     * @covers \mod_attendanceregister\user_aggregates_summary
      */
     public function test_tracked_courses(): void {
         $this->tracked_courses();
@@ -85,36 +86,36 @@ final class classes_test extends \advanced_testcase {
         $this->setAdminUser();
         $records = $DB->get_records('attendanceregister');
         foreach ($records as $record) {
-            $class1 = new \attendanceregister_tracked_courses($record);
+            $class1 = new tracked_courses($record);
             $this->assertNotEmpty($class1->html_table());
-            $usercaps = new \attendanceregister_user_capablities($this->context);
+            $usercaps = new user_capabilities($this->context);
             $this->assertTrue($usercaps->canview($this->userid));
             $this->assertFalse($usercaps->canddeletesession($this->userid));
             $this->assertFalse($usercaps->canaddsession($record, $this->userid));
-            $class2 = new \attendanceregister_tracked_users($record, $usercaps, 0);
+            $class2 = new tracked_users($record, $usercaps, 0);
             $this->assertNotEmpty($class2->html_table());
-            $class3 = new \attendanceregister_user_sessions($record, $this->userid, $usercaps);
+            $class3 = new user_sessions($record, $this->userid, $usercaps);
             $this->assertNotEmpty($class3->html_table());
-            $class4 = new \attendanceregister_user_aggregates($record, $this->userid, $class3);
+            $class4 = new user_aggregates($record, $this->userid, $class3);
             $this->assertNotEmpty($class4->html_table());
-            $class5 = new \attendanceregister_user_aggregates_summary();
+            $class5 = new user_aggregates_summary();
             $this->assertNotEmpty($class5);
         }
         $this->setUser($this->userid);
         foreach ($records as $record) {
-            $class1 = new \attendanceregister_tracked_courses($record);
+            $class1 = new tracked_courses($record);
             $this->assertNotEmpty($class1->html_table());
-            $usercaps = new \attendanceregister_user_capablities($this->context);
+            $usercaps = new user_capabilities($this->context);
             $usercaps->canview($this->userid);
             $usercaps->canddeletesession($this->userid);
             $usercaps->canaddsession($record, $this->userid);
-            $class2 = new \attendanceregister_tracked_users($record, $usercaps, 0);
+            $class2 = new tracked_users($record, $usercaps, 0);
             $this->assertNotEmpty($class2->html_table());
-            $class3 = new \attendanceregister_user_sessions($record, $this->userid, $usercaps);
+            $class3 = new user_sessions($record, $this->userid, $usercaps);
             $this->assertNotEmpty($class3->html_table());
-            $class4 = new \attendanceregister_user_aggregates($record, $this->userid, $class3);
+            $class4 = new user_aggregates($record, $this->userid, $class3);
             $this->assertNotEmpty($class4->html_table());
-            $class5 = new \attendanceregister_user_aggregates_summary();
+            $class5 = new user_aggregates_summary();
             $this->assertNotEmpty($class5);
         }
     }
@@ -196,7 +197,7 @@ final class classes_test extends \advanced_testcase {
         $lock->userid = $userid;
         $lock->takenon = time();
         $DB->insert_record('attendanceregister_lock', $lock);
-        $task = new \mod_attendanceregister\task\cron_task();
+        $task = new task\cron_task();
         $task->execute();
     }
 }

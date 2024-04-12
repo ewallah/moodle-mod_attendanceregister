@@ -24,6 +24,8 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace mod_attendanceregister;
+
 /**
  * Attendance register user sessions
  *
@@ -33,20 +35,20 @@
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class attendanceregister_user_sessions {
-    /** @var attendanceregister_session $usersessions */
+class user_sessions {
+    /** @var user_sessions $usersessions */
     public $usersessions;
 
-    /** @var attendanceregister_user_aggregates $useraggregates */
+    /** @var user_aggregates $useraggregates */
     public $useraggregates;
 
-    /** @var attendanceregister_tracked_courses $trackedcourses containing all tracked Courses */
+    /** @var tracked_courses $trackedcourses containing all tracked Courses */
     public $trackedcourses;
 
     /** @var object $register Ref. to AttendanceRegister instance */
     private $register;
 
-    /** @var mod_attendanceregister_user_capablities $usercaps */
+    /** @var user_capabilities $usercaps */
     private $usercaps;
 
     /**
@@ -54,15 +56,18 @@ class attendanceregister_user_sessions {
      * Load User's Sessions
      * Load User's Aggregates
      *
-     * @param object                              $register
-     * @param int                                 $userid
-     * @param attendanceregister_user_capablities $usercaps
+     * @param object                                   $register
+     * @param int                                      $userid
+     * @param user_capabilities $usercaps
      */
-    public function __construct($register, $userid, attendanceregister_user_capablities $usercaps) {
+    public function __construct($register, $userid, user_capabilities $usercaps) {
+        global $DB;
         $this->register = $register;
-        $this->usersessions = attendanceregister_get_user_sessions($register, $userid);
-        $this->useraggregates = new attendanceregister_user_aggregates($register, $userid, $this);
-        $this->trackedcourses = new attendanceregister_tracked_courses($register);
+        $arr = ['register' => $register->id, 'userid' => $userid];
+        $this->usersessions = $DB->get_records('attendanceregister_session', $arr, 'login DESC');
+
+        $this->useraggregates = new user_aggregates($register, $userid, $this);
+        $this->trackedcourses = new tracked_courses($register);
         $this->usercaps = $usercaps;
     }
 
@@ -73,7 +78,7 @@ class attendanceregister_user_sessions {
      */
     public function html_table() {
         global $OUTPUT;
-        $table = new html_table();
+        $table = new \html_table();
         $s = ' attendanceregister_sessionlist table table-condensed table-bordered table-striped table-hover';
         $table->attributes['class'] .= $s;
 
@@ -114,8 +119,8 @@ class attendanceregister_user_sessions {
                         ATTENDANCEREGISTER_ACTION_DELETE_OFFLINE_SESSION,
                         ['session' => $session->id]
                     );
-                    $confirm = new confirm_action(get_string('are_you_sure_to_delete_offline_session', 'attendanceregister'));
-                    $rowcountstr .= ' ' . $OUTPUT->action_icon($deleteurl, new pix_icon(
+                    $confirm = new \confirm_action(get_string('are_you_sure_to_delete_offline_session', 'attendanceregister'));
+                    $rowcountstr .= ' ' . $OUTPUT->action_icon($deleteurl, new \pix_icon(
                         't/delete',
                         get_string('delete')
                     ), $confirm);
@@ -123,10 +128,10 @@ class attendanceregister_user_sessions {
 
                 $duration = attendanceregister_format_duration($session->duration);
 
-                $tablerow = new html_table_row([
+                $tablerow = new \html_table_row([
                    $rowcountstr,
-                   attendanceregister__formatdate($session->login),
-                   attendanceregister__formatdate($session->logout),
+                   attendanceregister::formatdate($session->login),
+                   attendanceregister::formatdate($session->logout),
                    $duration, ]);
 
                 $tablerow->attributes['class'] .= ($rowcount % 2) ? ' attendanceregister_oddrow' : ' attendanceregister_evenrow';
@@ -134,11 +139,11 @@ class attendanceregister_user_sessions {
                 if ($this->register->offlinesessions) {
                     $online = $session->onlinesess ? $stronline : $stroffline;
                     if ($session->addedbyuserid) {
-                        $a = attendanceregister__otherusername($session->addedbyuserid);
+                        $a = attendanceregister::otherusername($session->addedbyuserid);
                         $addedby = get_string('session_added_by_another_user', 'attendanceregister', $a);
                         $online = html_writer::tag('a', $online . '*', ['title' => $addedby, 'class' => 'addedbyother']);
                     }
-                    $tablecell = new html_table_cell($online);
+                    $tablecell = new \html_table_cell($online);
                     $tablecell->attributes['class'] .= $session->onlinesess ? ' online_label' : ' offline_label';
                     $tablerow->attributes['class'] .= $session->onlinesess ? ' success' : '';
                     $tablerow->cells[] = $tablecell;
@@ -153,7 +158,7 @@ class attendanceregister_user_sessions {
                                 $s = get_string('not_specified', 'attendanceregister');
                             }
                         }
-                        $tablerow->cells[] = new html_table_cell($s);
+                        $tablerow->cells[] = new \html_table_cell($s);
                     }
 
                     if ($this->register->offlinecomments) {
@@ -161,14 +166,14 @@ class attendanceregister_user_sessions {
                         if (!$session->onlinesess && $session->comments) {
                             $s = $session->comments;
                         }
-                        $tablerow->cells[] = new html_table_cell($s);
+                        $tablerow->cells[] = new \html_table_cell($s);
                     }
                 }
                 $table->data[] = $tablerow;
             }
         } else {
-            $row = new html_table_row();
-            $labelcell = new html_table_cell(get_string('no_session_for_this_user', 'attendanceregister'));
+            $row = new \html_table_row();
+            $labelcell = new \html_table_cell(get_string('no_session_for_this_user', 'attendanceregister'));
             $labelcell->colspan = count($table->head);
             $row->cells[] = $labelcell;
             $table->data[] = $row;

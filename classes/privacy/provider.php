@@ -26,15 +26,9 @@
 
 namespace mod_attendanceregister\privacy;
 
-use core_privacy\local\request\approved_contextlist;
-use core_privacy\local\request\writer;
-use core_privacy\local\request\helper;
-use core_privacy\local\request\deletion_criteria;
+use core_privacy\local\request\{approved_contextlist, approved_userlist, core_userlist_provider, deletion_criteria, helper};
+use core_privacy\local\request\{transform, userlist, writer};
 use core_privacy\local\metadata\collection;
-use core_privacy\local\request\transform;
-use core_privacy\local\request\userlist;
-use core_privacy\local\request\approved_userlist;
-
 
 /**
  * Privacy main class.
@@ -45,7 +39,10 @@ use core_privacy\local\request\approved_userlist;
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\request\core_userlist_provider, \core_privacy\local\metadata\provider, \core_privacy\local\request\plugin\provider {
+class provider implements
+    core_userlist_provider,
+    \core_privacy\local\metadata\provider,
+    \core_privacy\local\request\plugin\provider {
     /**
      * Returns information about how attendanceregister stores its data.
      *
@@ -81,7 +78,9 @@ class provider implements \core_privacy\local\request\core_userlist_provider, \c
      */
     public static function get_contexts_for_userid(int $userid): \core_privacy\local\request\contextlist {
         $contextlist = new \core_privacy\local\request\contextlist();
-        $contextlist->add_system_context();
+        if (\core_user::get_user($userid)) {
+            $contextlist->add_system_context();
+        }
         return $contextlist;
     }
 

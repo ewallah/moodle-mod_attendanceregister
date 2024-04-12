@@ -44,16 +44,16 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test the user capabilites
-     * @covers \attendanceregister_user_capablities
+     * @covers \mod_attendanceregister\attendanceregister
+     * @covers \mod_attendanceregister\user_capabilities
      */
-    public function test_user_capabilites(): void {
+    public function test_user_capabilities(): void {
         global $CFG, $USER;
-        require_once($CFG->dirroot . '/mod/attendanceregister/locallib.php');
         require_once($CFG->dirroot . '/mod/attendanceregister/lib.php');
         $dg = $this->getDataGenerator();
         $course = $dg->create_course();
         $context = \context_course::instance($course->id);
-        $uc = new \attendanceregister_user_capablities($context);
+        $uc = new user_capabilities($context);
         $userid = $dg->create_user()->id;
         $dg->enrol_user($userid, $course->id);
         $this->AssertFalse($uc->canview($userid));
@@ -70,7 +70,7 @@ final class other_test extends \advanced_testcase {
         assign_capability('mod/attendanceregister:deleteotherofflinesess', CAP_ALLOW, 5, $context->id, true);
         assign_capability('mod/attendanceregister:viewotherregisters', CAP_ALLOW, 5, $context->id, true);
         role_assign(5, $userid, $context->id);
-        $uc = new \attendanceregister_user_capablities($context);
+        $uc = new user_capabilities($context);
         $this->assertTrue($uc->canview($userid));
         $this->AssertFalse($uc->canddeletesession($userid));
         $this->AssertFalse($uc->canaddsession($cm, $userid));
@@ -85,6 +85,7 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test the events
+     * @covers \mod_attendanceregister\attendanceregister
      * @covers \mod_attendanceregister\event\course_module_viewed
      * @covers \mod_attendanceregister\event\course_module_instance_list_viewed
      * @covers \mod_attendanceregister\event\mod_attendance_recalculation
@@ -118,6 +119,7 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test the tasks
+     * @covers \mod_attendanceregister\attendanceregister
      * @covers \mod_attendanceregister\task\cron_task
      */
     public function test_task(): void {
@@ -133,12 +135,13 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test several logins
+     * @covers \mod_attendanceregister\attendanceregister
      * @covers \mod_attendanceregister\task\cron_task
-     * @covers \attendanceregister_tracked_courses
-     * @covers \attendanceregister_user_aggregates
-     * @covers \attendanceregister_user_aggregates_summary
-     * @covers \attendanceregister_user_sessions
-     * @covers \attendanceregister_user_capablities
+     * @covers \mod_attendanceregister\tracked_courses
+     * @covers \mod_attendanceregister\user_aggregates
+     * @covers \mod_attendanceregister\user_aggregates_summary
+     * @covers \mod_attendanceregister\user_sessions
+     * @covers \mod_attendanceregister\user_capabilities
      */
     public function test_logins(): void {
         global $CFG, $DB;
@@ -170,20 +173,21 @@ final class other_test extends \advanced_testcase {
         $task->execute();
         $records = $DB->get_records('attendanceregister');
         foreach ($records as $record) {
-            $class1 = new \attendanceregister_tracked_courses($record);
+            $class1 = new tracked_courses($record);
             $this->assertNotEmpty($class1->html_table());
-            $usercaps = new \attendanceregister_user_capablities(\context_course::instance($course->id));
-            $class3 = new \attendanceregister_user_sessions($record, $user->id, $usercaps);
+            $usercaps = new user_capabilities(\context_course::instance($course->id));
+            $class3 = new user_sessions($record, $user->id, $usercaps);
             $this->assertNotEmpty($class3->html_table());
-            $class4 = new \attendanceregister_user_aggregates($record, $user->id, $class3);
+            $class4 = new user_aggregates($record, $user->id, $class3);
             $this->assertNotEmpty($class4->html_table());
-            $class5 = new \attendanceregister_user_aggregates_summary();
+            $class5 = new user_aggregates_summary();
             $this->assertNotEmpty($class5);
         }
     }
 
     /**
      * Test backup
+     * @covers \mod_attendanceregister\attendanceregister
      * @covers \backup_attendanceregister_activity_structure_step
      * @covers \backup_attendanceregister_activity_task
      * @covers \restore_attendanceregister_activity_structure_step
@@ -210,7 +214,7 @@ final class other_test extends \advanced_testcase {
         $session->refcourse = $courseid;
         $DB->insert_record('attendanceregister_session', $session);
         $this->setAdminUser();
-        $task = new \mod_attendanceregister\task\cron_task();
+        $task = new task\cron_task();
         $task->execute();
         $bc = new \backup_controller(
             \backup::TYPE_1COURSE,
@@ -241,13 +245,14 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test forms.
+     * @covers \mod_attendanceregister\attendanceregister
+     * @covers \mod_attendanceregister\attendanceregister
      * @covers \mod_attendanceregister_mod_form
-     * @covers \mod_attendanceregister_selfcertification_edit_form
+     * @covers \mod_attendanceregister\forms\selfcertification_edit_form
      */
     public function test_forms(): void {
         global $CFG, $DB, $USER;
         require_once($CFG->dirroot . '/mod/attendanceregister/mod_form.php');
-        require_once($CFG->dirroot . '/mod/attendanceregister/locallib.php');
         $dg = $this->getDataGenerator();
         $this->setAdminUser();
         $course = $dg->create_course();
@@ -266,7 +271,7 @@ final class other_test extends \advanced_testcase {
         $form->data_preprocessing($arr);
 
         $customformdata = ['register' => $register, 'courses' => [$course->id]];
-        $mform = new \mod_attendanceregister_selfcertification_edit_form(null, $customformdata);
+        $mform = new forms\selfcertification_edit_form(null, $customformdata);
         $mform->validation(['a' => $cm->instance, 'login' => time() - 1000, 'logout' => time(), 'userid' => $USER->id], []);
     }
 

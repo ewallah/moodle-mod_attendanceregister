@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * attendanceregister_tracked_courses.class.php - Class containing Attendance Register's tracked Courses
+ * Class containing Attendance Register's tracked Courses
  *
  * @package mod_attendanceregister
  * @copyright 2016 CINECA
@@ -23,6 +23,8 @@
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace mod_attendanceregister;
 
 /**
  * Holds all tracked Course of an Attendance Register
@@ -35,7 +37,7 @@
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class attendanceregister_tracked_courses {
+class tracked_courses {
     /** @var array $courses Array of Courses - Keyed by CourseID */
     public $courses;
 
@@ -63,17 +65,17 @@ class attendanceregister_tracked_courses {
      * @return html_table
      */
     public function html_table() {
-        $table = new html_table();
+        $table = new \html_table();
         $s = ' attendanceregiTster_courselist table table-condensed table-bordered table-striped table-hover';
         $table->attributes['class'] .= $s;
-        $tableheadcell = new html_table_cell(get_string('tracked_courses', 'attendanceregister'));
+        $tableheadcell = new \html_table_cell(get_string('tracked_courses', 'attendanceregister'));
         $tableheadcell->colspan = 2;
         $table->head = [$tableheadcell];
 
         $rowcount = 0;
         foreach ($this->courses as $course) {
             $rowcount++;
-            $tablerow = new html_table_row([$course->shortname, $course->fullname]);
+            $tablerow = new \html_table_row([$course->shortname, $course->fullname]);
             // Add class for zebra stripes.
             $tablerow->attributes['class'] .= ($rowcount % 2) ? ' attendanceregister_oddrow' : ' attendanceregister_evenrow';
             $table->data[] = $tablerow;
