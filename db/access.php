@@ -36,43 +36,43 @@ $capabilities = [
     'mod/attendanceregister:tracked' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
-        'legacy' => ['student' => CAP_ALLOW, 'teacher' => CAP_ALLOW, 'editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW],
+        'archetypes' => ['student' => CAP_ALLOW, 'teacher' => CAP_ALLOW, 'editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW],
     ],
     'mod/attendanceregister:viewotherregisters' => [
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => ['teacher' => CAP_ALLOW, 'editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW],
+        'archetypes' => ['teacher' => CAP_ALLOW, 'editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW],
     ],
     'mod/attendanceregister:viewownregister' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => ['student' => CAP_ALLOW, 'teacher' => CAP_ALLOW, 'editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW],
+        'archetypes' => ['student' => CAP_ALLOW, 'teacher' => CAP_ALLOW, 'editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW],
     ],
     'mod/attendanceregister:addownofflinesess' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => ['student' => CAP_ALLOW, 'teacher' => CAP_ALLOW, 'editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW],
+        'archetypes' => ['student' => CAP_ALLOW, 'teacher' => CAP_ALLOW, 'editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW],
     ],
     'mod/attendanceregister:deleteownofflinesess' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => ['student' => CAP_ALLOW],
+        'archetypes' => ['student' => CAP_ALLOW],
     ],
     'mod/attendanceregister:deleteotherofflinesess' => [
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => ['student' => CAP_PREVENT, 'teacher' => CAP_PREVENT, 'editingteacher' => CAP_PREVENT, 'manager' => CAP_PREVENT],
+        'archetypes' => ['student' => CAP_PREVENT, 'teacher' => CAP_PREVENT, 'editingteacher' => CAP_PREVENT, 'manager' => CAP_PREVENT],
     ],
     'mod/attendanceregister:recalcsessions' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => ['teacher' => CAP_ALLOW, 'editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW],
+        'archetypes' => ['teacher' => CAP_ALLOW, 'editingteacher' => CAP_ALLOW, 'manager' => CAP_ALLOW],
     ],
     'mod/attendanceregister:addotherofflinesess' => [
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'legacy' => ['student' => CAP_PREVENT, 'teacher' => CAP_PREVENT, 'editingteacher' => CAP_PREVENT, 'manager' => CAP_PREVENT],
+        'archetypes' => ['student' => CAP_PREVENT, 'teacher' => CAP_PREVENT, 'editingteacher' => CAP_PREVENT, 'manager' => CAP_PREVENT],
     ], ];

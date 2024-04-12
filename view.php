@@ -108,7 +108,7 @@ if ($register->offlinesessions &&  !$printable) {
             // If action is saving Offline Session...
             if ($inputaction == ATTENDANCEREGISTER_ACTION_SAVE_OFFLINE_SESSION) {
                 // Check Capabilities, to show an error if a security violation attempt occurs.
-                if (mod_attendanceregister\attendanceregister::iscurrentcser($userid)) {
+                if (mod_attendanceregister\attendanceregister::iscurrentuser($userid)) {
                     require_capability(ATTENDANCEREGISTER_CAPABILITY_ADD_OWN_OFFLINE_SESSIONS, $context);
                 } else {
                     require_capability(ATTENDANCEREGISTER_CAPABILITY_ADD_OTHER_OFFLINE_SESSIONS, $context);
@@ -183,7 +183,7 @@ if ($userid && $doshowofflinesessionform && !$printable) {
     if (!\mod_attendanceregister\attendanceregister::iscurrentuser($userid)) {
         $customformdata['userid'] = $userid;
     }
-    $mform = new mod_attendanceregister_selfcertification_edit_form(null, $customformdata);
+    $mform = new \mod_attendanceregister\forms\selfcertification_edit_form(null, $customformdata);
 
 
     // Process Self.Cert Form submission.

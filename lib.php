@@ -356,14 +356,8 @@ function attendanceregister_extend_settings_navigation(settings_navigation $sett
             $menuentry = get_string('force_recalc_all_session_now', 'attendanceregister');
             if ($register->pendingrecalc) {
                 $menuentry .= ' ' . get_string('recalc_already_pending', 'attendanceregister');
-                $node->add($menuentry, $linkurl, navigation_node::TYPE_SETTING);
-            } else {
-                $node->add($menuentry, $linkurl, navigation_node::TYPE_SETTING);
-                // Also adds Schedule Entry.
-                $linkurl = attendanceregister_makeurl($register, null, null, ATTENDANCEREGISTER_ACTION_SCHEDULERECALC);
-                $menuentry = get_string('schedule_reclalc_all_session', 'attendanceregister');
-                $node->add($menuentry, $linkurl, navigation_node::TYPE_SETTING);
             }
+            $node->add($menuentry, $linkurl, navigation_node::TYPE_SETTING);
         }
     }
 }
