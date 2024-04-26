@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        moodle-branch: ['MOODLE_402_STABLE', 'MOODLE_403_STABLE']
+        moodle-branch: ['MOODLE_402_STABLE', 'MOODLE_403_STABLE', 'MOODLE_404_STABLE']
         php: ['8.2']
         database: ['mariadb', 'pgsql']
         include:
@@ -98,7 +98,7 @@ jobs:
 
       - name: phpunit
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi phpunit --coverage-text
+        run: moodle-plugin-ci --ansi phpunit --testdox --coverage-text --coverage-clover
 
       - name: behat
         if: ${{ !cancelled() }}

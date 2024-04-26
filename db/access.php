@@ -63,7 +63,7 @@ $capabilities = [
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => ['student' => CAP_PREVENT, 'teacher' => CAP_PREVENT, 'editingteacher' => CAP_PREVENT, 'manager' => CAP_PREVENT],
+        'archetypes' => ['student' => CAP_PREVENT, 'teacher' => CAP_PREVENT, 'editingteacher' => CAP_PREVENT],
     ],
     'mod/attendanceregister:recalcsessions' => [
         'captype' => 'write',
@@ -74,5 +74,5 @@ $capabilities = [
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => ['student' => CAP_PREVENT, 'teacher' => CAP_PREVENT, 'editingteacher' => CAP_PREVENT, 'manager' => CAP_PREVENT],
+        'archetypes' => ['student' => CAP_PREVENT, 'teacher' => CAP_PREVENT, 'editingteacher' => CAP_PREVENT],
     ], ];
