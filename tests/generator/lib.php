@@ -37,10 +37,10 @@ class mod_attendanceregister_generator extends testing_module_generator {
     /**
      * Create attendance register instance
      * @param stdClass $record
-     * @param array $options
+     * @param null|array $options
      * @return stdClass
      */
-    public function create_instance($record = null, array $options = null) {
+    public function create_instance($record = null, ?array $options = null) {
         global $DB;
         $record = (array)$record;
         $record['showdescription'] = 1;

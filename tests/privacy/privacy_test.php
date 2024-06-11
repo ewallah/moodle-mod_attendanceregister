@@ -53,6 +53,7 @@ final class privacy_test extends provider_testcase {
      */
     public function setUp(): void {
         global $DB;
+        parent::setUp();
         $this->resetAfterTest();
         $dg = $this->getDataGenerator();
         $course = $dg->create_course();

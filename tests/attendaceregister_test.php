@@ -50,6 +50,7 @@ final class attendaceregister_test extends \advanced_testcase {
      * Basic setup for these tests.
      */
     public function setUp(): void {
+        parent::setUp();
         $this->resetAfterTest();
         $dg = $this->getDataGenerator();
         $this->course = $dg->create_course();

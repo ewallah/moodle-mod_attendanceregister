@@ -39,6 +39,7 @@ final class other_test extends \advanced_testcase {
      * Setup function.
      */
     public function setUp(): void {
+        parent::setUp();
         $this->resetAfterTest();
     }
 

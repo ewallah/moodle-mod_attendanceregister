@@ -26,6 +26,7 @@
 namespace mod_attendanceregister;
 
 use context_course;
+use progress_bar;
 use stdClass;
 
 /**
@@ -81,10 +82,10 @@ class attendanceregister {
      * @param  Attendanceregister  $register
      * @param  int                 $userid
      * @param  int                 $fromtime (default 0)
-     * @param  \progress_bar        $progressbar optional instance of progress_bar to update
+     * @param  null|progress_bar        $progressbar optional instance of progress_bar to update
      * @return int                 number of new sessions found
      */
-    public static function build_new_user_sessions($register, $userid, $fromtime = 0, \progress_bar $progressbar = null) {
+    public static function build_new_user_sessions($register, $userid, $fromtime = 0, ?progress_bar $progressbar = null) {
         $course = self::get_register_course($register);
         $user = self::getuser($userid);
         $trackedcids = self::get_tracked_courses_ids($register, $course);

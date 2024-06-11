@@ -407,11 +407,11 @@ function attendanceregister_get_user_sessions($register, $userid) {
  *
  * @param  object       $register      Register instance
  * @param  int          $userid        User->id
- * @param  progress_bar $progressbar   optional instance of progress_bar to update
+ * @param  null|progress_bar $progressbar   optional instance of progress_bar to update
  * @param  boolean      $recalculation true on recalculation: ignore locks and needUpdate check
  * @return boolean true if any new session has been found
  */
-function attendanceregister_update_user_sessions($register, $userid, progress_bar $progressbar = null, $recalculation = false) {
+function attendanceregister_update_user_sessions($register, $userid, ?progress_bar $progressbar = null, $recalculation = false) {
     // If not running in Recalc,
     // check if a Lock exists on this User's Register; if so, exit immediately.
     if (!$recalculation && \mod_attendanceregister\attendanceregister::check_lock_exists($register, $userid)) {
@@ -467,10 +467,10 @@ function attendanceregister_delete_all_users_online_sessions_and_aggregates($reg
  *
  * @param object       $register
  * @param int          $userid
- * @param progress_bar $progressbar
+ * @param null|progress_bar $progressbar
  * @param boolean      $deleteold before recalculating (default: true)
  */
-function attendanceregister_force_recalc_user_sessions($register, $userid, progress_bar $progressbar = null, $deleteold = true) {
+function attendanceregister_force_recalc_user_sessions($register, $userid, ?progress_bar $progressbar = null, $deleteold = true) {
     \mod_attendanceregister\attendanceregister::attain_lock($register, $userid);
     if ($deleteold) {
         $oldesttime = \mod_attendanceregister\attendanceregister::get_user_oldest_log_entry_timestamp($userid);
