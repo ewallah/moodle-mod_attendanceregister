@@ -37,7 +37,7 @@ namespace mod_attendanceregister;
 final class generator_test extends \advanced_testcase {
     /**
      * Test the generator
-     * @covers \mod_attendanceregister_generator
+     * #[CoversClass(mod_attendanceregister_generator)]
      */
     public function test_generator(): void {
         global $DB;

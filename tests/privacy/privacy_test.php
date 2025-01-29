@@ -126,8 +126,8 @@ final class privacy_test extends provider_testcase {
 
     /**
      * Test returning metadata.
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\privacy\provider
+     * #[CoversClass(mod_attendanceregister\attendanceregister)]
+     * #[CoversClass(mod_attendanceregister\privacy\provider)]
      */
     public function test_get_metadata(): void {
         $collection = new collection('mod_attendanceregister');
@@ -136,8 +136,8 @@ final class privacy_test extends provider_testcase {
     }
     /**
      * Test getting the context for the user ID related to this plugin.
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\privacy\provider
+     * #[CoversClass(mod_attendanceregister\attendanceregister)]
+     * #[CoversClass(mod_attendanceregister\privacy\provider)]
      */
     public function test_get_contexts_for_userid(): void {
         $contextlist = provider::get_contexts_for_userid($this->user->id);
@@ -146,8 +146,8 @@ final class privacy_test extends provider_testcase {
 
     /**
      * Check the exporting of sessions for a user.
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\privacy\provider
+     * #[CoversClass(mod_attendanceregister\attendanceregister)]
+     * #[CoversClass(mod_attendanceregister\privacy\provider)]
      */
     public function test_export_sessions(): void {
         $this->export_context_data_for_user($this->user->id, $this->context, 'mod_attendanceregister');
@@ -157,8 +157,8 @@ final class privacy_test extends provider_testcase {
 
     /**
      * Tests the deletion of all sessions.
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\privacy\provider
+     * #[CoversClass(mod_attendanceregister\attendanceregister)]
+     * #[CoversClass(mod_attendanceregister\privacy\provider)]
      */
     public function test_delete_sessions_for_all_users_in_context(): void {
         global $DB;
@@ -173,8 +173,8 @@ final class privacy_test extends provider_testcase {
 
     /**
      * Tests deletion of sessions for a specified user.
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\privacy\provider
+     * #[CoversClass(mod_attendanceregister\attendanceregister)]
+     * #[CoversClass(mod_attendanceregister\privacy\provider)]
      */
     public function test_delete_sessions_for_user(): void {
         global $DB;
@@ -191,8 +191,8 @@ final class privacy_test extends provider_testcase {
 
     /**
      * Tests get users in context.
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\privacy\provider
+     * #[CoversClass(mod_attendanceregister\attendanceregister)]
+     * #[CoversClass(mod_attendanceregister\privacy\provider)]
      */
     public function test_get_users_in_context(): void {
         $userlist = new userlist($this->context, 'mod_attendanceregister');
@@ -202,8 +202,8 @@ final class privacy_test extends provider_testcase {
 
     /**
      * Tests delete data for users.
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\privacy\provider
+     * #[CoversClass(mod_attendanceregister\attendanceregister)]
+     * #[CoversClass(mod_attendanceregister\privacy\provider)]
      */
     public function test_delete_data_for_users_in_context(): void {
         $approved = new approved_userlist($this->context, 'mod_attendanceregister', [$this->user->id]);

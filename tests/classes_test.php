@@ -66,12 +66,12 @@ final class classes_test extends \advanced_testcase {
 
     /**
      * Test tracked courses.
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\tracked_courses
-     * @covers \mod_attendanceregister\tracked_users
-     * @covers \mod_attendanceregister\user_aggregates
-     * @covers \mod_attendanceregister\user_sessions
-     * @covers \mod_attendanceregister\user_aggregates_summary
+     * #[CoversClass(mod_attendanceregister\attendanceregister)]
+     * #[CoversClass(mod_attendanceregister\tracked_courses)]
+     * #[CoversClass(mod_attendanceregister\tracked_users)]
+     * #[CoversClass(mod_attendanceregister\user_aggregates)]
+     * #[CoversClass(mod_attendanceregister\user_sessions)]
+     * #[CoversClass(mod_attendanceregister\user_aggregates_summary)]
      */
     public function test_tracked_courses(): void {
         $this->tracked_courses();

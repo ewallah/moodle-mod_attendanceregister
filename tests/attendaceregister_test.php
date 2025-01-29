@@ -60,7 +60,7 @@ final class attendaceregister_test extends \advanced_testcase {
 
     /**
      * Test functions.
-     * @covers \mod_attendanceregister\attendanceregister
+     * #[CoversClass(mod_attendanceregister\attendanceregister)]
      */
     public function test_functions(): void {
         // TODO: assert.
