@@ -45,8 +45,8 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test the user capabilites
-     * #[CoversClass(mod_attendanceregister\attendanceregister)]
-     * #[CoversClass(mod_attendanceregister\user_capabilities)]
+     * @covers \mod_attendanceregister\attendanceregister
+     * @covers \mod_attendanceregister\user_capabilities
      */
     public function test_user_capabilities(): void {
         global $CFG, $USER;
@@ -86,14 +86,14 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test the events
-     * #[CoversClass(mod_attendanceregister\attendanceregister)]
-     * #[CoversClass(mod_attendanceregister\event\course_module_viewed)]
-     * #[CoversClass(mod_attendanceregister\event\course_module_instance_list_viewed)]
-     * #[CoversClass(mod_attendanceregister\event\mod_attendance_recalculation)]
-     * #[CoversClass(mod_attendanceregister\event\participants_attendance_report_viewed)]
-     * #[CoversClass(mod_attendanceregister\event\user_attendance_addoffline)]
-     * #[CoversClass(mod_attendanceregister\event\user_attendance_deloffline)]
-     * #[CoversClass(mod_attendanceregister\event\user_attendance_details_viewed)]
+     * @covers \mod_attendanceregister\attendanceregister
+     * @covers \mod_attendanceregister\event\course_module_viewed
+     * @covers \mod_attendanceregister\event\course_module_instance_list_viewed
+     * @covers \mod_attendanceregister\event\mod_attendance_recalculation
+     * @covers \mod_attendanceregister\event\participants_attendance_report_viewed
+     * @covers \mod_attendanceregister\event\user_attendance_addoffline
+     * @covers \mod_attendanceregister\event\user_attendance_deloffline
+     * @covers \mod_attendanceregister\event\user_attendance_details_viewed
      */
     public function test_events(): void {
         $dg = $this->getDataGenerator();
@@ -120,8 +120,8 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test the tasks
-     * #[CoversClass(mod_attendanceregister\attendanceregister)]
-     * #[CoversClass(mod_attendanceregister\task\cron_task)]
+     * @covers \mod_attendanceregister\attendanceregister
+     * @covers \mod_attendanceregister\task\cron_task
      */
     public function test_task(): void {
         $dg = $this->getDataGenerator();
@@ -136,13 +136,13 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test several logins
-     * #[CoversClass(mod_attendanceregister\attendanceregister)]
-     * #[CoversClass(mod_attendanceregister\task\cron_task)]
-     * #[CoversClass(mod_attendanceregister\tracked_courses)]
-     * #[CoversClass(mod_attendanceregister\user_aggregates)]
-     * #[CoversClass(mod_attendanceregister\user_aggregates_summary)]
-     * #[CoversClass(mod_attendanceregister\user_sessions)]
-     * #[CoversClass(mod_attendanceregister\user_capabilities)]
+     * @covers \mod_attendanceregister\attendanceregister
+     * @covers \mod_attendanceregister\task\cron_task
+     * @covers \mod_attendanceregister\tracked_courses
+     * @covers \mod_attendanceregister\user_aggregates
+     * @covers \mod_attendanceregister\user_aggregates_summary
+     * @covers \mod_attendanceregister\user_sessions
+     * @covers \mod_attendanceregister\user_capabilities
      */
     public function test_logins(): void {
         global $CFG, $DB;
@@ -188,11 +188,11 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test backup
-     * #[CoversClass(mod_attendanceregister\attendanceregister)]
-     * #[CoversClass(backup_attendanceregister_activity_structure_step)]
-     * #[CoversClass(backup_attendanceregister_activity_task)]
-     * #[CoversClass(restore_attendanceregister_activity_structure_step)]
-     * #[CoversClass(restore_attendanceregister_activity_task)]
+     * @covers \mod_attendanceregister\attendanceregister
+     * @covers \backup_attendanceregister_activity_structure_step
+     * @covers \backup_attendanceregister_activity_task
+     * @covers \restore_attendanceregister_activity_structure_step
+     * @covers \restore_attendanceregister_activity_task
      */
     public function test_backup(): void {
         global $CFG, $DB, $USER;
@@ -246,10 +246,10 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test forms.
-     * #[CoversClass(mod_attendanceregister\attendanceregister)]
-     * #[CoversClass(mod_attendanceregister\attendanceregister)]
-     * #[CoversClass(mod_attendanceregister_mod_form)]
-     * #[CoversClass(mod_attendanceregister\forms\selfcertification_edit_form)]
+     * @covers \mod_attendanceregister\attendanceregister
+     * @covers \mod_attendanceregister\attendanceregister
+     * @covers \mod_attendanceregister_mod_form
+     * @covers \mod_attendanceregister\forms\selfcertification_edit_form
      */
     public function test_forms(): void {
         global $CFG, $DB, $USER;
@@ -278,7 +278,7 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test other files.
-     * #[CoversNothing]
+     * @coversNothing
      */
     public function test_files(): void {
         global $CFG;
