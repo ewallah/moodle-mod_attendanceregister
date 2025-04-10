@@ -36,6 +36,9 @@ jobs:
           - php: '8.3'
             moodle-branch: 'main'
             database: 'pgsql'
+          - php: '8.4'
+            moodle-branch: 'main'
+            database: 'pgsql'
 
     name: ${{ matrix.moodle-branch }}  php ${{ matrix.php }}  ${{ matrix.database }}
 
@@ -110,9 +113,16 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: chrome faildump (${{ join(matrix.*, ', ') }})
-          path: ${{ github.workspace }}/moodledata/behat_dump
-          retention-days: 7
-          if-no-files-found: ignore
+
+      - name: privacy
+        if: ${{ !cancelled() }}
+        run: vendor/bin/phpunit --colors --no-coverage --testsuite tool_dataprivacy_testsuite,tool_policy_testsuite,core_privacy_testsuite
+        working-directory: moodle
+
+      - name: behat
+        id: behat
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat --profile=chrome
 
       - name: admin bookmarks
         if: ${{ !cancelled() }}
