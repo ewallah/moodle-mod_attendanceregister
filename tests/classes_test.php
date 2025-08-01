@@ -26,6 +26,7 @@
 namespace mod_attendanceregister;
 
 use stdClass;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Unit tests classes
@@ -36,6 +37,12 @@ use stdClass;
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(attendanceregister::class)]
+#[CoversClass(tracked_courses::class)]
+#[CoversClass(tracked_users::class)]
+#[CoversClass(user_aggregates::class)]
+#[CoversClass(user_sessions::class)]
+#[CoversClass(user_aggregates_summary::class)]
 final class classes_test extends \advanced_testcase {
     /** @var stdClass context context */
     private $context;
@@ -66,12 +73,6 @@ final class classes_test extends \advanced_testcase {
 
     /**
      * Test tracked courses.
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\tracked_courses
-     * @covers \mod_attendanceregister\tracked_users
-     * @covers \mod_attendanceregister\user_aggregates
-     * @covers \mod_attendanceregister\user_sessions
-     * @covers \mod_attendanceregister\user_aggregates_summary
      */
     public function test_tracked_courses(): void {
         $this->tracked_courses();

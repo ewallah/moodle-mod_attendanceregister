@@ -26,6 +26,7 @@
 namespace mod_attendanceregister;
 
 use stdClass;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Unit tests classes
@@ -36,6 +37,7 @@ use stdClass;
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(attendanceregister::class)]
 final class attendaceregister_test extends \advanced_testcase {
     /** @var stdClass Course */
     private $course;
@@ -60,7 +62,6 @@ final class attendaceregister_test extends \advanced_testcase {
 
     /**
      * Test functions.
-     * @covers \mod_attendanceregister\attendanceregister
      */
     public function test_functions(): void {
         // TODO: assert.

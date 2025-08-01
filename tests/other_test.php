@@ -24,6 +24,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace mod_attendanceregister;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * other tests
@@ -34,6 +35,21 @@ namespace mod_attendanceregister;
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(attendanceregister::class)]
+#[CoversClass(user_capabilities::class)]
+#[CoversClass(event\course_module_viewed::class)]
+#[CoversClass(event\course_module_instance_list_viewed::class)]
+#[CoversClass(event\mod_attendance_recalculation::class)]
+#[CoversClass(event\participants_attendance_report_viewed::class)]
+#[CoversClass(event\user_attendance_addoffline::class)]
+#[CoversClass(event\user_attendance_deloffline::class)]
+#[CoversClass(event\user_attendance_details_viewed::class)]
+#[CoversClass(task\cron_task::class)]
+#[CoversClass(tracked_courses::class)]
+#[CoversClass(user_aggregates::class)]
+#[CoversClass(user_aggregates_summary::class)]
+#[CoversClass(user_sessions::class)]
+#[CoversClass(forms\selfcertification_edit_form::class)]
 final class other_test extends \advanced_testcase {
     /**
      * Setup function.
@@ -45,8 +61,6 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test the user capabilites
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\user_capabilities
      */
     public function test_user_capabilities(): void {
         global $CFG, $USER;
@@ -86,14 +100,6 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test the events
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\event\course_module_viewed
-     * @covers \mod_attendanceregister\event\course_module_instance_list_viewed
-     * @covers \mod_attendanceregister\event\mod_attendance_recalculation
-     * @covers \mod_attendanceregister\event\participants_attendance_report_viewed
-     * @covers \mod_attendanceregister\event\user_attendance_addoffline
-     * @covers \mod_attendanceregister\event\user_attendance_deloffline
-     * @covers \mod_attendanceregister\event\user_attendance_details_viewed
      */
     public function test_events(): void {
         $dg = $this->getDataGenerator();
@@ -120,8 +126,6 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test the tasks
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\task\cron_task
      */
     public function test_task(): void {
         $dg = $this->getDataGenerator();
@@ -136,13 +140,6 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test several logins
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\task\cron_task
-     * @covers \mod_attendanceregister\tracked_courses
-     * @covers \mod_attendanceregister\user_aggregates
-     * @covers \mod_attendanceregister\user_aggregates_summary
-     * @covers \mod_attendanceregister\user_sessions
-     * @covers \mod_attendanceregister\user_capabilities
      */
     public function test_logins(): void {
         global $CFG, $DB;
@@ -188,11 +185,6 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test backup
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \backup_attendanceregister_activity_structure_step
-     * @covers \backup_attendanceregister_activity_task
-     * @covers \restore_attendanceregister_activity_structure_step
-     * @covers \restore_attendanceregister_activity_task
      */
     public function test_backup(): void {
         global $CFG, $DB, $USER;
@@ -246,10 +238,6 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test forms.
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister\attendanceregister
-     * @covers \mod_attendanceregister_mod_form
-     * @covers \mod_attendanceregister\forms\selfcertification_edit_form
      */
     public function test_forms(): void {
         global $CFG, $DB, $USER;
@@ -278,7 +266,6 @@ final class other_test extends \advanced_testcase {
 
     /**
      * Test other files.
-     * @coversNothing
      */
     public function test_files(): void {
         global $CFG;

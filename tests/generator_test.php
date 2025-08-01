@@ -24,6 +24,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace mod_attendanceregister;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * PHPUnit generator testcase
@@ -34,10 +35,10 @@ namespace mod_attendanceregister;
  * @author  Renaat Debleu <info@eWallah.net>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversClass(\mod_attendanceregister_generator::class)]
 final class generator_test extends \advanced_testcase {
     /**
      * Test the generator
-     * @covers \mod_attendanceregister_generator
      */
     public function test_generator(): void {
         global $DB;
