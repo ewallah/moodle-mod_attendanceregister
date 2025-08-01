@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
   ci:
-    name: ci
     runs-on: ubuntu-latest
 
     services:
@@ -41,6 +40,8 @@ jobs:
             moodle-branch: 'main'
             database: 'pgsql'
 
+    name: ${{ matrix.moodle-branch }}  php ${{ matrix.php }}  ${{ matrix.database }}
+
     steps:
       - name: checkout plugin
         uses: actions/checkout@v4
@@ -53,7 +54,7 @@ jobs:
           php-version: ${{ matrix.php }}
           ini-values: max_input_vars=5000
           coverage: pcov
- 
+
       - name: composer
         run: |
            composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci
@@ -62,7 +63,7 @@ jobs:
            sudo locale-gen en_AU.UTF-8
 
       - name: install Moodle
-        run: moodle-plugin-ci --ansi install --db-host=127.0.0.1 --plugin this-plugin
+        run: moodle-plugin-ci install --db-host=127.0.0.1 --plugin this-plugin
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
@@ -101,7 +102,17 @@ jobs:
 
       - name: phpunit
         if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi phpunit --testdox --coverage-text --coverage-clover
+        run: moodle-plugin-ci --ansi phpunit --coverage-text
+
+      - name: chrome
+        if: ${{ !cancelled() }}
+        run: moodle-plugin-ci --ansi behat --profile chrome
+
+      - name: faildump
+        if: ${{ failure() && steps.chrome.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: chrome faildump (${{ join(matrix.*, ', ') }})
 
       - name: privacy
         if: ${{ !cancelled() }}
@@ -112,19 +123,6 @@ jobs:
         id: behat
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci --ansi behat --profile=chrome
-
-      - name: faildump
-        if: ${{ failure() && steps.behat.outcome == 'failure' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: firefox faildump (${{ join(matrix.*, ', ') }})
-          path: ${{ github.workspace }}/moodledata/behat_dump
-          retention-days: 7
-          if-no-files-found: ignore
-
-      - name: chrome
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci --ansi behat --profile chrome
 
       - name: admin bookmarks
         if: ${{ !cancelled() }}
