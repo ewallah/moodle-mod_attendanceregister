@@ -159,7 +159,7 @@ final class other_test extends \advanced_testcase {
         $coursecontext = \context_course::instance($course->id);
         while ($i < 10) {
             page_view($page, $course, $cm, $context);
-            $event = \mod_page\event\course_module_instance_list_viewed::create(['context' => $coursecontext]);
+            $event = \core\event\course_resources_list_viewed::create(['context' => $coursecontext]);
             $event->add_record_snapshot('course', $course);
             $event->trigger();
             $i++;

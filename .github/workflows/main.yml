@@ -29,13 +29,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        moodle-branch: ['MOODLE_405_STABLE', 'MOODLE_500_STABLE']
-        php: ['8.2']
+        moodle-branch: ['MOODLE_500_STABLE', 'MOODLE_501_STABLE']
+        php: ['8.3']
         database: ['mariadb', 'pgsql']
         include:
-          - php: '8.3'
-            moodle-branch: 'main'
-            database: 'pgsql'
           - php: '8.4'
             moodle-branch: 'main'
             database: 'pgsql'
@@ -44,7 +41,7 @@ jobs:
 
     steps:
       - name: checkout plugin
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: this-plugin
 
